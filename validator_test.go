@@ -2,7 +2,6 @@ package validator
 
 import (
 	"fmt"
-	"reflect"
 	"strconv"
 	"testing"
 )
@@ -23,24 +22,21 @@ func TestNewValidator(t *testing.T) {
 		if validator.hasError(flow.field) {
 			return
 		}
+		for _, v := range flow.values {
+			v, err := strconv.ParseFloat(fmt.Sprintf("%+v", v), 64)
+			if err != nil {
+				validator.addError(flow.field, "年龄格式不正确")
+				return
+			}
 
-		v, err := strconv.ParseFloat(fmt.Sprintf("%+v", flow.value), 64)
-		if err != nil {
-			validator.addError(flow.field, "年龄格式不正确")
-			return
-		}
-
-		if v < 10 {
-			validator.addError(flow.field, "年龄不能大于10岁")
-			return
+			if v < 10 {
+				validator.addError(flow.field, "年龄不能大于10岁")
+				return
+			}
 		}
 	})
 
 	if v.HasError() {
 		fmt.Println(v.Error())
 	}
-
-	o := reflect.TypeOf(a)
-	fmt.Println("name:", o.Name())
-	fmt.Println("name2:", )
 }

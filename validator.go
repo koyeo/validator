@@ -48,11 +48,11 @@ func (p *Validator) HasError() bool {
 	return p.errors != nil
 }
 
-func (p *Validator) Validate(field, label string, value interface{}) *Flow {
+func (p *Validator) Validate(field, label string, value ...interface{}) *Flow {
 	flow := new(Flow)
 	flow.label = label
 	flow.field = field
-	flow.value = value
+	flow.values = value
 	flow.validator = p
 	return flow
 }

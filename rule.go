@@ -6,8 +6,27 @@ import (
 )
 
 const (
-	username = `username`
-	password = `password`
+	username   = `username`
+	password   = `password`
+	email      = `email`
+	url        = `url`
+	integer    = `integer`
+	float      = `float`
+	chinese    = `chinese`
+	length     = "length"
+	maxLength  = "maxLength"
+	minLength  = "minLength"
+	max        = "max"
+	min        = "min"
+	between    = "between"
+	in         = "in"
+	notIn      = "notIn"
+	equal      = "equal"
+	great      = "great"
+	less       = "less"
+	greatEqual = "greatEqual"
+	lessEqual  = "lessEqual"
+	notEqual   = "notEqual"
 )
 
 var rules = map[string]string{
@@ -24,7 +43,7 @@ type Flow struct {
 	validator *Validator
 	field     string
 	label     string
-	value     interface{}
+	values    []interface{}
 }
 
 func (p *Flow) getMessage(rule string, msg []string) (message string) {
@@ -47,9 +66,11 @@ func (p *Flow) Username(msg ...string) *Flow {
 	}
 
 	reg := regexp.MustCompile(rules[username])
-	if !reg.MatchString(fmt.Sprintf("%+v", p.value)) {
-		p.validator.addError(p.field, p.getMessage(username, msg))
-		return p
+	for _, v := range p.values {
+		if !reg.MatchString(fmt.Sprintf("%+v", v)) {
+			p.validator.addError(p.field, p.getMessage(username, msg))
+			return p
+		}
 	}
 
 	return p
@@ -62,9 +83,11 @@ func (p *Flow) Password(msg ...string) *Flow {
 	}
 
 	reg := regexp.MustCompile(rules[password])
-	if !reg.MatchString(fmt.Sprintf("%+v", p.value)) {
-		p.validator.addError(p.field, p.getMessage(password, msg))
-		return p
+	for _, v := range p.values {
+		if !reg.MatchString(fmt.Sprintf("%+v", v)) {
+			p.validator.addError(p.field, p.getMessage(password, msg))
+			return p
+		}
 	}
 
 	return p
