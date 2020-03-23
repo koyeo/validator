@@ -15,8 +15,8 @@ func TestNewValidator(t *testing.T) {
 	var a = &OK{Name: "123"}
 
 	v := NewValidator()
-	v.Validate("username", "用户名", a.Name).Username()
-	v.Validate("password", "密码", a.Name).Username()
+	v.Validate("Username", "用户名", a.Name).Username()
+	v.Validate("Password", "密码", a.Name).Username()
 	v.Validate("age", "年龄", 8).Rule(func(validator *Validator, flow *Flow) {
 
 		if validator.hasError(flow.field) {
