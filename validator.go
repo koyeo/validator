@@ -4,20 +4,26 @@ import (
 	"encoding/json"
 )
 
+type Errors map[string]string
+
+func (e Errors) Error() string {
+	r, err := json.Marshal(e)
+	if err != nil {
+		return err.Error()
+	}
+	return string(r)
+}
+
 func NewValidator() *Validator {
 	return &Validator{}
 }
 
 type Validator struct {
-	errors map[string]string
+	errors Errors
 }
 
-func (p *Validator) Error() string {
-	r, err := json.Marshal(p.errors)
-	if err != nil {
-		return err.Error()
-	}
-	return string(r)
+func (p *Validator) Error() error {
+	return p.errors
 }
 
 func (p *Validator) addError(field string, msg string) {
