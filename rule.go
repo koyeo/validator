@@ -54,6 +54,10 @@ func (p *Flow) GetLabel() string {
 	return p.label
 }
 
+func (p *Flow) GetValues() []interface{} {
+	return p.values
+}
+
 func (p *Flow) GetMessage(rule string, msg []string) (message string) {
 
 	if len(msg) > 0 {
