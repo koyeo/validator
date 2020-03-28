@@ -46,7 +46,11 @@ type Flow struct {
 	values    []interface{}
 }
 
-func (p *Flow) getMessage(rule string, msg []string) (message string) {
+func (p *Flow) GetLabel() string {
+	return p.label
+}
+
+func (p *Flow) GetMessage(rule string, msg []string) (message string) {
 
 	if len(msg) > 0 {
 		return msg[0]
@@ -61,14 +65,14 @@ func (p *Flow) Rule(check func(validator *Validator, flow *Flow)) {
 
 func (p *Flow) Username(msg ...string) *Flow {
 
-	if p.validator.hasError(p.label) {
+	if p.validator.CheckError(p.label) {
 		return p
 	}
 
 	reg := regexp.MustCompile(rules[Username])
 	for _, v := range p.values {
 		if !reg.MatchString(fmt.Sprintf("%+v", v)) {
-			p.validator.addError(p.field, p.getMessage(Username, msg))
+			p.validator.AddError(p.field, p.GetMessage(Username, msg))
 			return p
 		}
 	}
@@ -78,14 +82,14 @@ func (p *Flow) Username(msg ...string) *Flow {
 
 func (p *Flow) Password(msg ...string) *Flow {
 
-	if p.validator.hasError(p.label) {
+	if p.validator.CheckError(p.label) {
 		return p
 	}
 
 	reg := regexp.MustCompile(rules[Password])
 	for _, v := range p.values {
 		if !reg.MatchString(fmt.Sprintf("%+v", v)) {
-			p.validator.addError(p.field, p.getMessage(Password, msg))
+			p.validator.AddError(p.field, p.GetMessage(Password, msg))
 			return p
 		}
 	}

@@ -26,7 +26,7 @@ func (p *Validator) Error() error {
 	return p.errors
 }
 
-func (p *Validator) addError(field string, msg string) {
+func (p *Validator) AddError(field string, msg string) {
 	if p.errors == nil {
 		p.errors = make(map[string]string)
 	}
@@ -43,7 +43,7 @@ func (p *Validator) getError(field string) string {
 	return ""
 }
 
-func (p *Validator) hasError(field string) bool {
+func (p *Validator) CheckError(field string) bool {
 	if p.getError(field) != "" {
 		return true
 	}
