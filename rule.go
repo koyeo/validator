@@ -46,6 +46,10 @@ type Flow struct {
 	values    []interface{}
 }
 
+func (p *Flow) GetField() string {
+	return p.field
+}
+
 func (p *Flow) GetLabel() string {
 	return p.label
 }
