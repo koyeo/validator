@@ -54,6 +54,13 @@ func (p *Flow) GetLabel() string {
 	return p.label
 }
 
+func (p *Flow) GetValue(index int) interface{} {
+	if index < len(p.values) {
+		return p.values[index]
+	}
+	return nil
+}
+
 func (p *Flow) GetValues() []interface{} {
 	return p.values
 }
