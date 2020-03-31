@@ -15,7 +15,7 @@ type Errors struct {
 }
 
 func (p *Errors) Error() string {
-	if p.errors != nil {
+	if p != nil && p.errors != nil {
 		r, err := json.Marshal(p.errors)
 		if err != nil {
 			return err.Error()
