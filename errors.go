@@ -1,6 +1,8 @@
 package validator
 
-import "encoding/json"
+import (
+	"encoding/json"
+)
 
 func NewErrors() *Errors {
 	return &Errors{
@@ -10,6 +12,11 @@ func NewErrors() *Errors {
 
 type Errors struct {
 	errors map[string]string
+}
+
+func (p *Errors) UnmarshalJSON(data []byte) error {
+	p.errors = make(map[string]string)
+	return json.Unmarshal(data, &p.errors)
 }
 
 func (p *Errors) MarshalJSON() ([]byte, error) {
