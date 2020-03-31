@@ -1,6 +1,7 @@
 package validator
 
 import (
+	"encoding/json"
 	"fmt"
 	"testing"
 )
@@ -9,9 +10,14 @@ type OK struct {
 	Name string `json:"name"`
 }
 
+type A struct {
+	Code int64
+	Err  interface{}
+}
+
 func TestNewValidator(t *testing.T) {
 
-	var a = &OK{Name: "test"}
+	var a = &OK{Name: "1te123st2123"}
 
 	v := NewValidator()
 	v.Validate("Username", "用户名", a.Name).Username()
@@ -38,6 +44,11 @@ func TestNewValidator(t *testing.T) {
 	if v.HasError() {
 		fmt.Println(v.Error())
 	}
-	fmt.Println(v.errors == nil)
-	fmt.Println(v.Error() == nil)
+
+	o := &A{
+		Code: 1,
+		Err:  v.Error(),
+	}
+	data,_:=json.Marshal(o)
+	fmt.Println(string(data))
 }
