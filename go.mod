@@ -1,3 +1,3 @@
-module github.com/koyeo/go-validator
+module github.com/koyeo/validator
 
 go 1.13
