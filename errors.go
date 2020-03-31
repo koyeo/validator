@@ -23,6 +23,11 @@ func (p *Errors) MarshalJSON() ([]byte, error) {
 	return json.Marshal(p.errors)
 }
 
+func (p *Errors) String() string {
+	d, _ := json.Marshal(p.errors)
+	return string(d)
+}
+
 func (p *Errors) Error() string {
 	if p != nil && p.errors != nil {
 		r, err := json.Marshal(p.errors)
