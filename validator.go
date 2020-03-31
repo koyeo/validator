@@ -5,7 +5,7 @@ func NewValidator() *Validator {
 }
 
 type Validator struct {
-	errors *Errors
+	errors Errors
 }
 
 func (p *Validator) Error() error {

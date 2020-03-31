@@ -4,33 +4,20 @@ import (
 	"encoding/json"
 )
 
-func NewErrors() *Errors {
-	return &Errors{
-		errors: make(map[string]string),
-	}
+func NewErrors() Errors {
+	return make(map[string]string)
 }
 
-type Errors struct {
-	errors map[string]string
+type Errors map[string]string
+
+func (p Errors) MarshalJSON() ([]byte, error) {
+	return json.Marshal(p)
 }
 
-func (p *Errors) UnmarshalJSON(data []byte) error {
-	p.errors = make(map[string]string)
-	return json.Unmarshal(data, &p.errors)
-}
 
-func (p *Errors) MarshalJSON() ([]byte, error) {
-	return json.Marshal(p.errors)
-}
-
-func (p *Errors) String() string {
-	d, _ := json.Marshal(p.errors)
-	return string(d)
-}
-
-func (p *Errors) Error() string {
-	if p != nil && p.errors != nil {
-		r, err := json.Marshal(p.errors)
+func (p Errors) Error() string {
+	if p != nil {
+		r, err := json.Marshal(p)
 		if err != nil {
 			return err.Error()
 		}
@@ -39,12 +26,12 @@ func (p *Errors) Error() string {
 	return ""
 }
 
-func (p *Errors) Add(field, msg string) {
-	p.errors[field] = msg
+func (p Errors) Add(field, msg string) {
+	p[field] = msg
 }
 
-func (p *Errors) Get(field string) string {
-	if err, ok := p.errors[field]; ok {
+func (p Errors) Get(field string) string {
+	if err, ok := p[field]; ok {
 		return err
 	}
 	return ""
