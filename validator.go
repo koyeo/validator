@@ -4,14 +4,33 @@ import (
 	"encoding/json"
 )
 
-type Errors map[string]string
+func NewErrors() *Errors {
+	return &Errors{
+		errors: make(map[string]string),
+	}
+}
 
-func (e Errors) Error() string {
-	r, err := json.Marshal(e)
+type Errors struct {
+	errors map[string]string
+}
+
+func (p *Errors) Error() string {
+	r, err := json.Marshal(p.errors)
 	if err != nil {
 		return err.Error()
 	}
 	return string(r)
+}
+
+func (p *Errors) Add(field, msg string) {
+	p.errors[field] = msg
+}
+
+func (p *Errors) Get(field string) string {
+	if err, ok := p.errors[field]; ok {
+		return err
+	}
+	return ""
 }
 
 func NewValidator() *Validator {
@@ -19,31 +38,26 @@ func NewValidator() *Validator {
 }
 
 type Validator struct {
-	errors Errors
+	errors *Errors
 }
 
 func (p *Validator) Error() error {
-	if len(p.errors) == 0 {
-		p.errors = nil
-	}
 	return p.errors
 }
 
 func (p *Validator) AddError(field string, msg string) {
 	if p.errors == nil {
-		p.errors = make(map[string]string)
+		p.errors = NewErrors()
 	}
-	p.errors[field] = msg
+	p.errors.Add(field, msg)
 }
 
 func (p *Validator) getError(field string) string {
 	if p.errors == nil {
 		return ""
 	}
-	if err, ok := p.errors[field]; ok {
-		return err
-	}
-	return ""
+
+	return p.errors.Get(field)
 }
 
 func (p *Validator) CheckError(field string) bool {
