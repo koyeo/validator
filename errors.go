@@ -10,10 +10,6 @@ func NewErrors() Errors {
 
 type Errors map[string]string
 
-func (p Errors) MarshalJSON() ([]byte, error) {
-	return json.Marshal(p)
-}
-
 
 func (p Errors) Error() string {
 	if p != nil {
