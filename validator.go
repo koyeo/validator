@@ -23,6 +23,9 @@ type Validator struct {
 }
 
 func (p *Validator) Error() error {
+	if len(p.errors) == 0 {
+		p.errors = nil
+	}
 	return p.errors
 }
 
