@@ -15,11 +15,14 @@ type Errors struct {
 }
 
 func (p *Errors) Error() string {
-	r, err := json.Marshal(p.errors)
-	if err != nil {
-		return err.Error()
+	if p.errors != nil {
+		r, err := json.Marshal(p.errors)
+		if err != nil {
+			return err.Error()
+		}
+		return string(r)
 	}
-	return string(r)
+	return ""
 }
 
 func (p *Errors) Add(field, msg string) {
