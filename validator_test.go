@@ -38,4 +38,6 @@ func TestNewValidator(t *testing.T) {
 	if v.HasError() {
 		fmt.Println(v.Error())
 	}
+	fmt.Println(v.errors == nil)
+	fmt.Println(v.Error() == nil)
 }
