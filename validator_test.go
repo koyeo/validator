@@ -3,6 +3,7 @@ package validator
 import (
 	"encoding/json"
 	"fmt"
+	"regexp"
 	"testing"
 )
 
@@ -49,6 +50,21 @@ func TestNewValidator(t *testing.T) {
 		Code: 1,
 		Err:  v.Error(),
 	}
-	data,_:=json.Marshal(o)
+	data, _ := json.Marshal(o)
 	fmt.Println(string(data))
+
+	fmt.Println(GetResult(`{
+    "code": 620,
+    "detail": "{\"code\":620,\"message\":\"ok\",\"detail\":{\"username\":\"字段重复\"}}"
+}`))
+
+}
+
+func GetResult(str string) string {
+	codeRegex := regexp.MustCompile(`"detail":(.+)}`)
+	res := codeRegex.FindStringSubmatch(str)
+	if len(res) == 2 {
+		return res[1]
+	}
+	return str
 }
