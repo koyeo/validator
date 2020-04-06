@@ -35,7 +35,7 @@ const (
 
 var rules = map[string]string{
 	Username:  `^[a-z0-9_-]{3,16}$`,
-	Password:  `(?=^.{8,}$)(?=.*\d)(?=.*\W+)(?=.*[A-Z])(?=.*[a-z])(?!.*\n).*$`,
+	Password:  `^[0-9a-zA-Z@.]{6,30}$`,
 	Email:     `^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$`,
 	Url:       `^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/`,
 	Integer:   `-?\d+`,
