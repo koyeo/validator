@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	Require    = "Require"
+	Required   = "Required"
 	Username   = `Username`
 	Password   = `Password`
 	Email      = `Email`
@@ -34,6 +34,7 @@ const (
 )
 
 var Rules = map[string]string{
+	Required:  `.+`,
 	Username:  `^[a-z0-9_-]{3,16}$`,
 	Password:  `^[0-9a-zA-Z@.]{6,30}$`,
 	Email:     `^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$`,
@@ -46,7 +47,7 @@ var Rules = map[string]string{
 }
 
 var Messages = map[string]string{
-	Require:   "字段不能为空",
+	Required:  "字段不能为空",
 	Username:  "用户名格式不正确",
 	Password:  "密码格式不正确",
 	Email:     "邮箱格式不正确",
@@ -105,7 +106,7 @@ func (p *Flow) Require(msg ...string) *Flow {
 
 	for _, v := range p.values {
 		if strings.TrimSpace(fmt.Sprintf("%+v", v)) == "" {
-			p.validator.AddError(p.field, p.GetMessage(Require, msg))
+			p.validator.AddError(p.field, p.GetMessage(Required, msg))
 			return p
 		}
 	}
