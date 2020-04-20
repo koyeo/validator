@@ -33,7 +33,7 @@ const (
 	NotEqual   = "NotEqual"
 )
 
-var rules = map[string]string{
+var Rules = map[string]string{
 	Username:  `^[a-z0-9_-]{3,16}$`,
 	Password:  `^[0-9a-zA-Z@.]{6,30}$`,
 	Email:     `^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$`,
@@ -45,7 +45,7 @@ var rules = map[string]string{
 	ChineseId: `\d{15}|\d{18}`,
 }
 
-var messages = map[string]string{
+var Messages = map[string]string{
 	Require:   "字段不能为空",
 	Username:  "用户名格式不正确",
 	Password:  "密码格式不正确",
@@ -90,7 +90,7 @@ func (p *Flow) GetMessage(rule string, msg []string) (message string) {
 		return msg[0]
 	}
 
-	return messages[rule]
+	return Messages[rule]
 }
 
 func (p *Flow) Rule(check func(validator *Validator, flow *Flow)) {
@@ -119,7 +119,7 @@ func (p *Flow) Username(msg ...string) *Flow {
 		return p
 	}
 
-	reg := regexp.MustCompile(rules[Username])
+	reg := regexp.MustCompile(Rules[Username])
 	for _, v := range p.values {
 		if !reg.MatchString(fmt.Sprintf("%+v", v)) {
 			p.validator.AddError(p.field, p.GetMessage(Username, msg))
@@ -136,7 +136,7 @@ func (p *Flow) Password(msg ...string) *Flow {
 		return p
 	}
 
-	reg := regexp.MustCompile(rules[Password])
+	reg := regexp.MustCompile(Rules[Password])
 	for _, v := range p.values {
 		if !reg.MatchString(fmt.Sprintf("%+v", v)) {
 			p.validator.AddError(p.field, p.GetMessage(Password, msg))
