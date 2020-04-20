@@ -98,7 +98,7 @@ func (p *Flow) Rule(check func(validator *Validator, flow *Flow)) {
 	check(p.validator, p)
 }
 
-func (p *Flow) Require(msg ...string) *Flow {
+func (p *Flow) Required(msg ...string) *Flow {
 
 	if p.validator.CheckError(p.label) {
 		return p
